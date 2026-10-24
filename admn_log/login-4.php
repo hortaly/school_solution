@@ -97,14 +97,14 @@ LIMIT 1
 <body>
 
 <!-- Preloader -->
-<div class="preloader">
+<!-- <div class="preloader">
   <div class="lds-ellipsis">
     <div></div>
     <div></div>
     <div></div>
     <div></div>
   </div>
-</div>
+</div> -->
 <!-- Preloader End -->
 
 <div id="main-wrapper" class="oxyy-login-register h-100 d-flex flex-column bg-transparent">

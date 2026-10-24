@@ -75,7 +75,7 @@ $settings = mysqli_fetch_assoc($result);
                         <div id="hid-men">
                             <ul class="menu">
                                 <li><a href="index.php">Home</a></li>
-                                <li><a href="login/">Admin Login</a></li>
+                                <li><a href="new_admn_log/">Admin Login</a></li>
                                 <li><a href="register/">Admin Register</a></li>
                                 <li><a href="login/">Member Login</a></li>
                                 <li><a href="register/member_reg.php">Member Register</a></li>
@@ -107,7 +107,7 @@ $settings = mysqli_fetch_assoc($result);
                                     <div class="fl-wrap section-entry">
                                         <h3>Welcome to</h3>
                                         <h2><?php echo $settings['school_name']; ?></h2>
-                                        <a href="admn_log/login-4.php" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Admin Login</b></span></a>  
+                                        <a href="new_admn_log/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Admin Login</b></span></a>  
                         
                                         <a href="parents_log/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Parent Login</b></span></a>  
                                         <a href="login/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Staff Login</b></span></a>  
@@ -126,7 +126,7 @@ $settings = mysqli_fetch_assoc($result);
                                 <div class="fl-wrap section-entry">
                                           <h3>Welcome to</h3>
                                         <h2><?php echo $settings['school_name']; ?></h2>
-                                        <a href="admn_log/login-4.php" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Admin Login</b></span></a>  
+                                        <a href="new_admn_log/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Admin Login</b></span></a>  
                         
                                         <a href="parents_log/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Parent Login</b></span></a>  
                                         <a href="login/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Staff Login</b></span></a>
@@ -144,7 +144,7 @@ $settings = mysqli_fetch_assoc($result);
                                 <div class="fl-wrap section-entry">
                                         <h3>Welcome to</h3>
                                         <h2><?php echo $settings['school_name']; ?></h2>
-                                        <a href="admn_log/login-4.php" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Admin Login</b></span></a>  
+                                        <a href="new_admn_log/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Admin Login</b></span></a>  
                         
                                         <a href="parents_log/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Parent Login</b></span></a>  
                                         <a href="login/" class="btn hide-icon"  ><i class="fa fa-user"></i><span><b>Staff Login</b></span></a>
