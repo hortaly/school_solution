@@ -126,29 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function shakeForm() {
-    if (card) {
-      gsap.fromTo(card, 
-        { x: -10 }, 
-        { x: 10, duration: 0.1, repeat: 5, yoyo: true, ease: "power2.inOut", onComplete: () => gsap.set(card, { x: 0 }) }
-      );
-    }
-  }
-
-  function setButtonLoading(btn, isLoading) {
-    const btnText = btn.querySelector(".btn-text");
-    const spinner = btn.querySelector(".spinner");
-    if (isLoading) {
-      btn.disabled = true;
-      if (btnText) btnText.style.display = "none";
-      if (spinner) spinner.style.display = "block";
-    } else {
-      btn.disabled = false;
-      if (btnText) btnText.style.display = "inline-block";
-      if (spinner) spinner.style.display = "none";
-    }
-  }
-
   // ==========================================
   // 3. SHOW / HIDE PASSWORD TOGGLE
   // ==========================================
@@ -169,72 +146,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
-  // 4. LOGIN FORM LOGIC (index.html)
+  // 4. SIGN UP WIZARD STEP NAVIGATION
   // ==========================================
-  const loginForm = document.getElementById("login-form");
-  if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
+  const nextBtn = document.getElementById("next-step-btn");
+  const prevBtn = document.getElementById("prev-step-btn");
+  const step1 = document.getElementById("step-1");
+  const step2 = document.getElementById("step-2");
+  const wizardSubtitle = document.getElementById("wizard-subtitle");
+
+  if (nextBtn && prevBtn && step1 && step2) {
+    nextBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const email = document.getElementById("email");
-      const password = document.getElementById("password");
-      let isValid = true;
+      const fullname = document.getElementById("fullname").value.trim();
+      const phone = document.getElementById("phone_number").value.trim();
 
-      clearErrors();
-
-      if (!validateEmail(email.value)) {
-        showError(email, "Please enter a valid email address.");
-        isValid = false;
-      }
-      if (!password.value || password.value.length < 8) {
-        showError(password, "Password must be at least 8 characters.");
-        isValid = false;
-      }
-
-      if (!isValid) {
-        shakeForm();
-        return;
-      }
-
-      const submitBtn = loginForm.querySelector("button[type='submit']");
-      setButtonLoading(submitBtn, true);
-
-      // TODO: Connect your backend / database API call here
-      setTimeout(() => {
-        setButtonLoading(submitBtn, false);
-        alert("Login successful! (Plug in your backend API here)");
-      }, 1500);
-    });
-  }
-
-  // ==========================================
-  // 5. SIGN UP WIZARD LOGIC (signup.html)
-  // ==========================================
-  const signupForm = document.getElementById("signup-form");
-  if (signupForm) {
-    const step1 = document.getElementById("step-1");
-    const step2 = document.getElementById("step-2");
-    const nextBtn = document.getElementById("next-step-btn");
-    const prevBtn = document.getElementById("prev-step-btn");
-    const wizardSubtitle = document.getElementById("wizard-subtitle");
-
-    nextBtn.addEventListener("click", () => {
-      const fullname = document.getElementById("fullname");
-      const email = document.getElementById("email");
-      let isValid = true;
-
-      clearErrors();
-
-      if (!fullname.value.trim()) {
-        showError(fullname, "Full name is required.");
-        isValid = false;
-      }
-      if (!validateEmail(email.value)) {
-        showError(email, "Please enter a valid email address.");
-        isValid = false;
-      }
-
-      if (!isValid) {
-        shakeForm();
+      if (!fullname || !phone) {
+        alert("Please fill in all fields in Step 1 before proceeding.");
         return;
       }
 
@@ -245,13 +172,14 @@ document.addEventListener("DOMContentLoaded", () => {
         onComplete: () => {
           step1.style.display = "none";
           step2.style.display = "block";
-          wizardSubtitle.textContent = "Step 2 of 2: Security";
+          if (wizardSubtitle) wizardSubtitle.textContent = "Step 2 of 2: Security";
           gsap.fromTo(step2, { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.25 });
         }
       });
     });
 
-    prevBtn.addEventListener("click", () => {
+    prevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       gsap.to(step2, {
         opacity: 0,
         x: 20,
@@ -259,85 +187,23 @@ document.addEventListener("DOMContentLoaded", () => {
         onComplete: () => {
           step2.style.display = "none";
           step1.style.display = "block";
-          wizardSubtitle.textContent = "Step 1 of 2: Basic Information";
+          if (wizardSubtitle) wizardSubtitle.textContent = "Step 1 of 2: Basic Information";
           gsap.fromTo(step1, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25 });
         }
       });
     });
-
-    signupForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const password = document.getElementById("password");
-      const confirmPassword = document.getElementById("confirm-password");
-      let isValid = true;
-
-      clearErrors();
-
-      if (!password.value || password.value.length < 8) {
-        showError(password, "Password must be at least 8 characters.");
-        isValid = false;
-      }
-      if (password.value !== confirmPassword.value) {
-        showError(confirmPassword, "Passwords do not match.");
-        isValid = false;
-      }
-
-      if (!isValid) {
-        shakeForm();
-        return;
-      }
-
-      const submitBtn = signupForm.querySelector("button[type='submit']");
-      setButtonLoading(submitBtn, true);
-
-      // TODO: Connect your backend / database API call here
-      setTimeout(() => {
-        setButtonLoading(submitBtn, false);
-        alert("Sign up wizard completed successfully! (Plug in your backend API here)");
-      }, 1500);
-    });
   }
 
   // ==========================================
-  // 6. EMAIL FORM LOGIC (email.html)
+  // 5. OTP BOX AUTO-FOCUS NAVIGATION
   // ==========================================
-  const emailForm = document.getElementById("email-form");
-  if (emailForm) {
-    emailForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("reset-email");
-      clearErrors();
-
-      if (!validateEmail(email.value)) {
-        showError(email, "Please enter a valid email address.");
-        shakeForm();
-        return;
-      }
-
-      const submitBtn = emailForm.querySelector("button[type='submit']");
-      setButtonLoading(submitBtn, true);
-
-      // TODO: Connect your backend API to trigger OTP sending here
-      setTimeout(() => {
-        setButtonLoading(submitBtn, false);
-        window.location.href = "otp.html";
-      }, 1500);
-    });
-  }
-
-  // ==========================================
-  // 7. OTP FORM LOGIC (otp.html)
-  // ==========================================
-  const otpForm = document.getElementById("otp-form");
-  if (otpForm) {
-    const boxes = document.querySelectorAll(".otp-input");
-
+  const boxes = document.querySelectorAll(".otp-input");
+  if (boxes.length > 0) {
     boxes.forEach((box, index) => {
       box.addEventListener("input", (e) => {
         const val = e.target.value;
         if (val && /^\d$/.test(val)) {
           box.value = val;
-          gsap.fromTo(box, { scale: 1.2 }, { scale: 1, duration: 0.3, ease: "back.out(2)" });
           if (index < boxes.length - 1) {
             boxes[index + 1].focus();
           }
@@ -363,51 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (/^\d{6}$/.test(pasteData)) {
           boxes.forEach((b, idx) => {
             b.value = pasteData[idx];
-            gsap.fromTo(b, { scale: 1.2 }, { scale: 1, duration: 0.3, ease: "back.out(2)" });
           });
           boxes[boxes.length - 1].focus();
         }
       });
     });
-
-    otpForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      let code = "";
-      boxes.forEach(b => code += b.value);
-
-      if (code.length < 6) {
-        shakeForm();
-        alert("Please enter the complete 6-digit code.");
-        return;
-      }
-
-      const submitBtn = otpForm.querySelector("button[type='submit']");
-      setButtonLoading(submitBtn, true);
-
-      // TODO: Connect your backend API to verify OTP here
-      setTimeout(() => {
-        setButtonLoading(submitBtn, false);
-        alert("OTP verified successfully! (Plug in your backend API here)");
-      }, 1500);
-    });
-  }
-
-  // Helper Functions
-  function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
-  function showError(inputElement, message) {
-    inputElement.classList.add("error");
-    const errorDiv = inputElement.parentElement.parentElement.querySelector(".error-message");
-    if (errorDiv) {
-      errorDiv.textContent = message;
-      errorDiv.style.display = "block";
-    }
-  }
-
-  function clearErrors() {
-    document.querySelectorAll(".input-wrapper input").forEach(input => input.classList.remove("error"));
-    document.querySelectorAll(".error-message").forEach(msg => msg.style.display = "none");
   }
 });

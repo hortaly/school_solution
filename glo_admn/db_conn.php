@@ -2,7 +2,7 @@
 
 //$mysqli = new mysqli("example.com", "user", "password", "database");
 
-$conn = new mysqli("localhost", "hortaly", "hortaly", "hortaly");
+$conn = new mysqli("localhost", "hortaly_user", "JayHorot12*", "hortaly_db");
 
 //	 check connection
 if (mysqli_connect_errno()) {
